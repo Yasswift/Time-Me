@@ -10,6 +10,7 @@ import SwiftUI
 
 struct TimersView: View {
     @Environment(\.modelContext) private var modelContext
+
     @Query private var timerModels: [TimerModel]
 
     @State private var isShowingAddTimerView = false
@@ -42,9 +43,17 @@ struct TimersView: View {
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             for index in offsets {
-                modelContext.delete(timerModels[index])
+                deleteTimer(timerModel: timerModels[index])
             }
         }
+    }
+
+    private func deleteTimer(timerModel: TimerModel) {
+        modelContext.delete(timerModel)
+
+        do {
+            try modelContext.save()
+        } catch {}
     }
 }
 

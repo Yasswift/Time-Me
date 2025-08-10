@@ -25,11 +25,10 @@ struct TimePickerView: View {
                        binding: $addTimerViewModel.selectedSecondsAmount)
         }
         .frame(maxWidth: .infinity)
-        .foregroundColor(.white)
     }
 
     @ViewBuilder
-    private func pickerView(title: String, range: ClosedRange<Int>, binding: Binding<Int>) -> some View {
+    private func pickerView(title: String, range: [Int], binding: Binding<Int>) -> some View {
         HStack(spacing: -pickerViewTitlePadding) {
             Spacer()
             Picker(title, selection: binding) {
@@ -39,7 +38,6 @@ struct TimePickerView: View {
                         // right-aligned
                         Spacer()
                         Text("\(timeIncrement)")
-                            .foregroundColor(.white)
                             .multilineTextAlignment(.trailing)
                     }
                 }

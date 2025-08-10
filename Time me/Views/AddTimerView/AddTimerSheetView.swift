@@ -5,11 +5,12 @@
 //  Created by Yassine Toutouh on 06/08/2025.
 //
 
+import SwiftData
 import SwiftUI
 
 struct AddTimerSheetView: View {
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
 
     @State private var addTimerViewModel = AddTimerViewModel()
 
@@ -29,33 +30,35 @@ struct AddTimerSheetView: View {
                     Spacer()
                 }
                 VStack {
-                    Text(addTimerViewModel.timerName.isEmpty ? "Nouveau" : addTimerViewModel.timerName)
+                    Text("Nouveau Timer")
                         .font(Font.title.bold())
 
                     TimePickerView(addTimerViewModel: addTimerViewModel)
                     Form {
                         Section("Nom du Timer") {
-                            TextField("Ex: Cuisson œuf mollet", text: $addTimerViewModel.timerName)
+                            TextField("Ex: Cuisson œuf mollet, riz pilaf...", text: $addTimerViewModel.timerName)
                         }
                     }
                     Spacer()
                     Button {
-                        if !addTimerViewModel.timerName.isEmpty {
-                            modelContext.insert(TimerModel(name: addTimerViewModel.timerName, timestamp: addTimerViewModel.timeSelected))
-                        }
+                        addTimerViewModel.saveNewTimer()
+                        dismiss()
                     } label: {
                         Rectangle()
-                            .fill(timerName.isEmpty ? Color.gray.opacity(0.8) : Color.orange.opacity(0.8))
+                            .fill(addTimerViewModel.isTimerValid ? Color.orange.opacity(0.8) : Color.gray.opacity(0.8))
                             .cornerRadius(12)
                             .frame(height: 44)
                             .overlay {
                                 Text("Enregistrer")
-                                    .foregroundStyle(.black)
                             }
                     }
+                    .buttonStyle(.plain)
                 }
             }
             .padding(16)
+        }
+        .onAppear {
+            addTimerViewModel.modelContext = modelContext
         }
     }
 }

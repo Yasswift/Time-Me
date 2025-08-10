@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum TimerPickerProperties {
-    static let hoursRange = 0...23
-    static let minutesRange = 0...59
-    static let secondsRange = 0...59
+    static let hoursRange = Array(stride(from: 0, through: 23, by: 1))
+    static let minutesRange = Array(stride(from: 0, through: 59, by: 1))
+    static let secondsRange = Array(stride(from: 0, through: 50, by: 10))
 }

@@ -26,8 +26,7 @@ struct RootView: App {
     var body: some Scene {
         WindowGroup {
             TimersView()
-                .preferredColorScheme(.dark)
         }
-        .modelContainer(sharedModelContainer)
+        .modelContainer(for: TimerModel.self)
     }
 }

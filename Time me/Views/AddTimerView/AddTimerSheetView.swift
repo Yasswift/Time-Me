@@ -19,10 +19,12 @@ struct AddTimerSheetView: View {
             ZStack(alignment: .top) {
                 HStack {
                     Circle()
-                        .fill(Color.gray)
+                        .fill(.clear)
                         .frame(width: 32)
                         .overlay {
                             Image(systemName: "multiply")
+                                .font(.title3)
+                                .foregroundStyle(.orange)
                         }
                         .onTapGesture {
                             dismiss()
@@ -33,19 +35,32 @@ struct AddTimerSheetView: View {
                     Text("Nouveau Timer")
                         .font(Font.title.bold())
 
-                    TimePickerView(addTimerViewModel: addTimerViewModel)
-                    Form {
-                        Section("Nom du Timer") {
-                            TextField("Ex: Cuisson œuf mollet, riz pilaf...", text: $addTimerViewModel.timerName)
-                        }
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Nom du minuteur")
+                            .bold()
+                            .font(.title3)
+                        Divider()
+                            .frame(width: 100, height: 4)
+                            .background(Color.orange)
+                            .padding(.bottom, 8)
+                        TextField("Ex: Cuisson œuf mollet, riz pilaf...",
+                                  text: $addTimerViewModel.timerName)
                     }
+                    .padding(.top, 16)
+
+                    TimePickerView(addTimerViewModel: addTimerViewModel)
+
                     Spacer()
+
                     Button {
-                        addTimerViewModel.saveNewTimer()
-                        dismiss()
+                        addTimerViewModel.saveNewTimer {
+                            dismiss()
+                        }
                     } label: {
                         Rectangle()
-                            .fill(addTimerViewModel.isTimerValid ? Color.orange.opacity(0.8) : Color.gray.opacity(0.8))
+                            .fill(addTimerViewModel.isTimerValid
+                                ? Color.orange.opacity(0.8)
+                                : Color.gray.opacity(0.1))
                             .cornerRadius(12)
                             .frame(height: 44)
                             .overlay {

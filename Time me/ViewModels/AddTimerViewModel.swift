@@ -25,8 +25,10 @@ class AddTimerViewModel {
     var modelContext: ModelContext? = nil
 
     @MainActor
-    func saveNewTimer() {
-        guard let modelContext else { return }
+    func saveNewTimer(completion: () -> Void) {
+        guard let modelContext,
+              isTimerValid
+        else { return }
 
         timeSelected = TimeInterval(selectedHoursAmount * 3600) + TimeInterval(selectedMinutesAmount * 60) + TimeInterval(selectedSecondsAmount)
 
@@ -34,6 +36,7 @@ class AddTimerViewModel {
 
         do {
             try modelContext.save()
+            completion()
         } catch {}
     }
 }
